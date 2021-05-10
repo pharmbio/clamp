@@ -50,7 +50,7 @@ sub ShowHead {
 	print ' | ' . a({href=>"$v"},"$k");
     }
     print ' ]</font>';
-    print '<h3><img src="img/farmbio.gif"';
+    print '<h3><img src="img/logo.png"';
     print 'alt="<logo>"></h3></center>';
 }
 
@@ -64,7 +64,7 @@ sub ShowFoot {
     my $url = url(); # $url =~ s/http:/https:/ if https();
     $url =~ s|http://export.uppmax|https://export.uppmax|; # KLUDGE
     print font({size=>'-1'},"URL: $url" .
-	       br . 'Copyright &copy; 2015 UAS/UU. All rights reserved.' .
+	       br . 'Copyright &copy; 2021 Pincer Bio AB. All rights reserved.' .
 	       br . "Last modified: $m by " .
 	       a({href=>"mailto:$WADM"},$WNAM) .
 	       #br . a({href=>'contacts', target=>'_new'},'Contacts') .

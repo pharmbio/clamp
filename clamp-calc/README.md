@@ -1,6 +1,6 @@
-### Workflow for PacBio BCR-ABL1 mutation screening
+## Workflow for PacBio BCR-ABL1 mutation screening
 
-#### Step 1. Register samples in text file and in the web system
+### Step 1. Register samples in text file and in the web system
 As soon as new samples have been delivered, update the sample information in the file 'bcr-abl1_sample_list_with_primers.txt'. Go to the clamp directory and open the file in your favorite text editor.
 
 Add all necessary fields (runId, sampleId, primerId, site and date) for each of the new samples to be analyzed. The fields must be separated by tab '\t' characters.
@@ -13,20 +13,20 @@ Add all necessary fields (runId, sampleId, primerId, site and date) for each of 
 Login to your CLAMP server. Click on 'Admin' link, then 'Register Samples'. Copy/paste all the newly added sample rows from 'bcr-abl1_sample_list_with_primers.txt' into the form and click on the box 'check'. If no problems occurred in the naming of samples click 'save' on the next page.
 
 
-#### Step 2. Run 'reads of insert' plugin in SMRT portal
+### Step 2. Run 'reads of insert' plugin in SMRT portal
 When the PacBio run is complete, log on to the SMRT portal using your personal user ID. Click on 'Create New' and select the SMRT cell containing the data for the patient to be analyzed. Select 'RS_ReadsOfInsert.1' under the 'Protocols', assign a job name for the analysis (eg, 'foo_002_1_ccs_reads') and click on the 'Start' button. 
 
 
-#### Step 3. Store result files on a local computer
+### Step 3. Store result files on a local computer
 Create a new directory for the runID which matches the filename above (eg, 'foo_002_1').
 
 When the 'RS_ReadsOfInsert.1' plugin is done, download the FASTQ file to the newly created directory. The FASTQ file should then be renamed so that the end with 'fastq', not 'fastq.txt'. Make certain common file extensions aren't hidden.
 
 
-#### Step 4. Run the BCR-ABL1 mutation screening analysis
+### Step 4. Run the BCR-ABL1 mutation screening analysis
 Go to the directory 'clamp' and start R.
 
-#### Step 5. Perform QC on the run and analysis
+### Step 5. Perform QC on the run and analysis
 In R, run the program 'clamp_bcr-abl1.R'
 ``` 
 > source("clamp_bcr-abl1.R")
@@ -59,10 +59,10 @@ total 313072
 ```
 Unless any files with prefix 'QC_FAILED_' are found in the directory, most of the mutations were screened high coverage and it is possible to proceed to Step 6. If a 'QC_FAILED_' file exists a more thorough troubleshooting is required, but the likely explanation is that insufficient coverage was obtained and the sample needs to be rerun.
 
-#### Step 6. Quality control of coverage data
+### Step 6. Quality control of coverage data
 To assess the quality of the sequencing data, open the quality control pdf (...QC.pdf) file and look at the coverage profile. If there is a continuous coverage profile over the whole sequence and the minimum coverage (represented by the red horizontal line) is above 100, then the sample has passed the quality control criteria. If there are any drops in coverage, a more detailed analysis is required.
 
-#### Step 7. Detection of previously unknown mutations
+### Step 7. Detection of previously unknown mutations
 The system automatically screens for previously unknown mutations occurring at a frequency of at least 2.5% among the 500 highest quality reads. If the file 'denovo_snps.txt' exists, then look in to the file. One example of such a file for sample foo_002_1 is shown below:
 ```
 sequence        pos     ref     alt     cov_fwd ref_fwd alt_fwd cov_rev ref_rev alt_rev freq_fwd        freq_rev        freq    annotation
@@ -71,10 +71,10 @@ GCCCCCGTTCTATATCATCA[C/T]TGAGTTCATGACCTACGGGA   1002    C       T       174     
 ```
 If there is any row that has a 'NA' in the annotation field, then this corresponds to a potential novel mutation. If such a novel mutation is detected, a more detailed investigation is mutation position is needed before uploading the final results. Otherwise, proceed to Step 8.
 
-#### Step 8. Upload result files into web based system
+### Step 8. Upload result files into web based system
 Go back to your CLAMP server and upload the results. Once logged in to the system, click the 'Admin' link and then 'Upload Files'. Select the mutation results text file (suffix final.txt), the raw reads file (fastq.gz), the quality control file (QC.pdf) and the log file (analysis_log.txt). If a clonal distribution analysis was performed, two additional files will be created (clonal_distribution.txt and clonal_distribution.pdf). Both these files should also be uploaded in the system. Once all files have been selected, click the submit button and the results are be imported into the system!
 
-#### Step 9. Send a mail to inform that mutation results are ready! 
+### Step 9. Send a mail to inform that mutation results are ready! 
 Inform everyone in the group that new results are ready. Send a mail using the template below:
 ```
 Subject: 
@@ -82,9 +82,11 @@ Subject:
 ```
 ```
 Message: 
-New BCR-ABL1 mutation results are ready (https://<clamp-server>/cml/). Known mutations of at least 0.5% frequency, and previously unknown mutations of at least 5% have been screened in the samples below. At least 100X coverage is required at a mutational position in order to class it as positive or negative. Mutation sites with coverage lower than 100 are classed as unresolved.
+New BCR-ABL1 mutation results are ready (https://<clamp-server>/). Known mutations of at least 0.5% frequency, 
+and previously unknown mutations of at least 5% have been screened in the samples below. At least 100X coverage
+is required at a mutational position in order to class it as positive or negative. Mutation sites with coverage
+lower than 100 are classed as unresolved.
 *** samples ***
 run_id_1 sample_id_1
 run_id_2 sample_id_2
-...
 ```

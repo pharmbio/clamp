@@ -1,3 +1,3 @@
-# CLAMP GUI
+## Usage notes for storage and reporting frontend
 
-Storage and reporting frontend
+![Search Screen](../img/example.png "Search Screen")
