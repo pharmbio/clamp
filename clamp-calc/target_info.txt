@@ -1,0 +1,6 @@
+primerId	fwd	rev	references	mutationTables
+BCR-ABL1_Major	TGACCAACTC	ACGAAGTGGA	e13-a2.fasta,e14-a2.fasta,e13-a3.fasta,e14-a3.fasta	bcr-abl1_mutation_table.txt
+BCR-ABL1_Minor	ACCGCATGTT	ACGAAGTGGA	e1-a2.fasta,e1-a3.fasta	bcr-abl1_mutation_table.txt
+BCR-ABL1_Micro	TGACCAACTC	ACGAAGTGGA	e19-a2.fasta,e19-a3.fasta	bcr-abl1_mutation_table.txt
+ABL1_E1	GGGTCCACAC	ACGAAGTGGA	abl1-e1.fasta	bcr-abl1_mutation_table.txt
+ABL1_F2	CCTCGTCCTC	ACGAAGTGGA	abl1-f2.fasta	bcr-abl1_mutation_table.txt
