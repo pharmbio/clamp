@@ -7,8 +7,9 @@ Add all necessary fields (runId, sampleId, primerId, site and date) for each of 
 1. _runID_: Unique identifier related to the sequencing run
 2. _sampleId_: Identifier from clinic. Unique for the sample but possible run multiple times
 3. _primerId_: Name of a primaer found in 'target_info.txt'. Note spelling.
-4. _site_: Short abbreviation for the source of the sample. Could later be used to show subsets of the results. [Unimplemented.]
+4. _site_: Short abbreviation for the source of the sample.
 5. _date_: yyy-mm-dd
+6. _IS%_: 
 
 Login to your CLAMP server. Click on 'Admin' link, then 'Register Samples'. Copy/paste all the newly added sample rows from 'bcr-abl1_sample_list_with_primers.txt' into the form and click on the box 'check'. If no problems occurred in the naming of samples click 'save' on the next page.
 
