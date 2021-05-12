@@ -61,3 +61,33 @@ Note that some of these Perl modules are or have been in Perl core.
 Some modules may have dependencies (most notably _GD_).
 The given version numbers are known to work but are unlikely to be 
 strictly required.
+
+### Local configuration
+
+An _uploads_ folder must be visible to the scripts for the actual uploading as well as file downloads. This is probably handled with symbolic links and may involve remote storage since a single processed sample may be 500 MB.
+
+A _data_ folder containing a SQLite database. Note that MySQL has been used in the past and some files have the connection code commented out for easy reference.
+
+The table schema is as follows:
+```
+CREATE TABLE files (
+seqid INTEGER PRIMARY KEY AUTOINCREMENT,
+regid integer, versn integer, orig, ftype, ruser,
+rhost,stamp timestamp DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE logs (regid integer not null, date, type, ref);
+
+CREATE TABLE results (
+regid integer not null, sortby integer not null, mutation,sequence,wt_reads_fwd,mut_reads_fwd,other_reads_fwd,freq_fwd,wt_reads_rev,mut_reads_rev,other_reads_rev,freq_rev,wt_reads,mut_reads,other_reads,freq,detection,routine);
+
+CREATE TABLE ontarget (regid integer not null, filtered, raw, ontarg);
+
+CREATE TABLE samples (
+regid INTEGER PRIMARY KEY AUTOINCREMENT,
+runid, samid, primr, srcid, sdate, ispnt,
+notes,ruser,rhost,stamp timestamp DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE primers (primerId, assay, fwd, rev);
+
+CREATE TABLE isp (samid, isp);
+```
