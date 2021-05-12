@@ -9,10 +9,9 @@ $ENV{'PATH'} = '/bin:/usr/bin';
 delete @ENV{'IFS', 'CDPATH', 'ENV', 'BASH_ENV'};
 
 my %sites = ('cml', 'Philadelphia Variants',
-	     'tp53','Tumor Protein p53',
 	     'cmldev', 'CML Dev Server');
-our $WADM = 'wesley.schaal@farmbio.uu.se';
-our $WNAM = 'wes';
+our $WADM = 'contact@example.com';
+our $WNAM = 'con';
 
 our ($SITE, $DESC); 
 my ($root, $conf) = ('.', '');

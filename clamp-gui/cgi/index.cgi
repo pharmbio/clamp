@@ -142,18 +142,6 @@ sub PrepSQL {
 	    $p =~ y/0-9a-zA-Z_\*\!-//cd;
 	    $p =~ y/*/%/;
 	    $where .= "$v like '$p' and ";
-	# } elsif ($v ~~ [qw(samid runid)] && $p) {
-	#     $p =~ y/0-9<>,!-//cd;
-	#     # $p =~ y/0-9a-zA-Z_<>,!-//cd;
-	#     next unless $p;
-	#     my $q = $v eq 'foobar' ? "a.$v" : $v;
-	#     if   ($p =~ /^\d+$/)               { $where .= "$q  = $p and "; }
-	#     elsif($p =~ /^[\!-]\s*(\d+)$/)     { $where .= "$q != $1 and "; }
-	#     elsif($p =~ /^\<\s*(\d+)$/)        { $where .= "$q  < $1 and "; }
-	#     elsif($p =~ /^\>\s*(\d+)$/)        { $where .= "$q  > $1 and "; }
-	#     elsif($p =~ /^(\d+)\s*-\s*(\d+)$/) { $where .= "($q between $1 and $2) and "; }
-	#     elsif($p =~ /\d+,[\d\s,]*\d+/)     { $where .= "$q in ($p) and "; } # ",,"
-	#     else { Fret("$v = $p"); }
 	}
 	print p("$v = '\%$p\%'") if $D>1;
     }
@@ -173,39 +161,11 @@ sub PrepSQL {
 }
 
 
-# sub ListRec {
-#     my $recs = join ',', grep { /^\d+$/ } @_;
-#     my $sql = "select regid,samid,runid,sdate,(select group_concat(mut) from ".
-# 	"mutants where eid=regid) mutat from samples where regid in ($recs)";
-#     my $sth = $dbh->prepare($sql); $sth->execute(); print(p($sql)) if $D;
-
-#     print start_blockquote, br, start_form;
-#     print submit(-name=>'all',value=>'Details');
-#     print start_table({cellspacing=>0,cellpadding=>5,border=>1});
-#     print Tr(th([qw(DB Patient Sample Date Mutations Other)]));
-#     while(my ($regid,$samid,$runid,$sdate,$mutat) = $sth->fetchrow_array) {
-# 	$mutat =~ y/,/ /;
-# 	print Tr(td({align=>'center'}, submit(-name=>'rec',value=>$regid)) .
-# 		 td({align=>'center'}, submit(-name=>'pat',value=>"D:$samid")) .
-# 		 td("R$runid") . td($sdate) . td($mutat) . 
-# 		 td({align=>'center'},chr(int(rand(26))+65)));
-#     }
-#     print end_table, p(font({size=>'-1',color=>'gray'},$now));
-#     print hidden('recs',$recs);
-#     print end_form, end_blockquote;
-# }
-
-
 sub ListAll {
     my $recs = join ',', grep { /^\d+$/ } @_; print p("Recs: $recs") if $D;
     # my $recs = param('recs'); print "HITS: $recs" if $D;
     Fret('Internal Error 21') unless $recs =~ /^\d+(?:,\d+)*$/;
 
-    # my $sql = "select regid,mutation as mut,round(100*freq,1) as pct " .
-    #  	"from results where regid in ($recs) and detection = 'positive'";
-    # my $sql = "select regid, case when instr(mutation, 'rs') then " .
-    # 	"'Unknown' else mutation end as mut, round(100*freq,1) as pct " .
-    # 	"from results where regid in ($recs) and detection = 'positive'";
     my $sql = "select regid,mutation as mut,round(100*freq,1) as pct " .
 	"from results where regid in ($recs) and detection = 'positive' " .
 	'and mutation not like "rs%"';
@@ -282,19 +242,6 @@ sub ShowReg {
     $sql = "select samid,runid,sdate from samples where regid = $rec";
     my ($samid,$runid,$sdate) = $dbh->selectrow_array($sql);
 
-    # $sql = "select max(case when ftype = 'txt' then versn end) as txt, " .
-    # 	"max(case when ftype = 'seq' then versn end) as seq, max(case when " .
-    # 	"ftype = 'pdf' then versn end) as pdf from files where regid = $rec";
-    # my ($txt,$seq,$pdf) = $dbh->selectrow_array($sql);
-
-    # my $stf = $dbh->prepare('select orig || "." || SUBSTR("00" || versn, -2, 2) '.
-    # 			    'from files where regid = ? and ftype = ? '.
-    # 			    'group by regid having max(versn)');
-
-    # my $stf = $dbh->prepare('select runid, orig, versn from files join samples '.
-    # 			    'using (regid) where regid = ? and ftype = ? group '.
-    # 			    'by regid having max(versn)');
-
     my $stf = $dbh->prepare('select runid, orig from files join samples using '.
 			    '(regid) where regid = ? and ftype = ? group by '.
 			    'regid having max(versn)');
@@ -321,18 +268,12 @@ sub ShowReg {
     print start_table({width=>'50%',align=>'center'});
     print Tr(th({colspan=>4},'Downloads:')), start_Tr;
     print $txt[1] ? 
-#	td(a({href=>sprintf("%s-%02d.%s",$fn,$txt,'txt')},'Results')) : 
-#	td(a({href=>sprintf("%s/%s/%s.%02d",$data,@txt)},'Results')) : 
 	td(a({href=>sprintf("%s/%s/%s",$data,@txt)},'Results')) : 
 	th(font({color=>'#C0C0C0'},'Results'));
     print $seq[1] ? 
-#	td(a({href=>sprintf("%s-%02d.%s",$fn,$seq,'fastq.gz')},'Sequence')) : 
-#	td(a({href=>sprintf("%s/%s/%s.%02d",$data,@seq)},'Sequence')) : 
 	td(a({href=>sprintf("%s/%s/%s",$data,@seq)},'Sequence')) : 
 	th(font({color=>'#C0C0C0'},'Sequence'));
     print $pdf[1] ? 
-#	td(a({href=>sprintf("%s-%02d.%s",$fn,$pdf,'pdf')},'Details')) : 
-#	td(a({href=>sprintf("%s/%s/%s.%02d",$data,@pdf)},'Details')) : 
 	td(a({href=>sprintf("%s/%s/%s",$data,@pdf)},'Coverage')) : 
 	th(font({color=>'#C0C0C0'},'Coverage'));
     print $dtt[1] ? 
@@ -400,58 +341,5 @@ sub uniq {
   my %seen;
   return grep { !$seen{$_}++ } @_;
 }
-
-
-# sub ShowPat {
-#     #$pat =~ y/0-9//cd; 
-#     unless ($pat) { FindHit(); ShowFoot(); exit(0); }
-#     my $recs = param('recs'); #Fret('Internal Error 12') unless $recs =~ /^\d+(?:,\d+)*$/;
-#     print p("pat= $pat".br."recs= $recs") if $D;
-
-#     my @recs = grep { /^\d+$/ } split /,/, $recs;
-#     my $sql = "select distinct samid from samples where regid in ($recs) order by samid";
-#     print p($sql) if $D;
-#     my @hits = @{ $dbh->selectcol_arrayref($sql) };
-
-#     my $n = first {$hits[$_] eq "$pat"} 0..$#hits;
-#     print "HITS: $n ; $#hits ; $pat ; ", join(',',@hits) if $D;
-
-#     Nav('p', $n, @hits);
-
-#     ####################
-#      my $sql = "select count(*) n, sdate, ruser from samples " .
-# 	 "where samid=$pat group by samid having min(sdate)";
-#      my ($n,$sdate,$ruser) = $dbh->selectrow_array($sql);
-    
-#     print start_table({width=>'50%',align=>'center',bgcolor=>'#F0F0F6'});
-#     print start_Tr, start_td;
-#     print start_table({align=>'center',width=>'90%'});
-#     print Tr(th([qw(Patient Samples Registered Registrar)]));
-#     print Tr(td({align=>'center'},[sprintf("%05d",$pat),$n,$sdate,$ruser]));
-#     print end_table, end_td, end_Tr, end_table, br, hr({width=>'65%'});
-#     ####################
-
-#     $sql = "select eid,mut,pct from mutants left join samples on (regid=eid) " .
-# 	"where samid=$pat"; print p($sql) if $D;
-#     my $res = $dbh->selectall_hashref($sql, [ qw(eid mut) ]); 
-#     my @mut = uniq(map { keys %{$res->{$_}} } %$res);
-#     @mut = map {$_->[0]} sort {$a->[1]<=>$b->[1]} map {[$_, $_=~/(\d+)/]} @mut;
-#     print p(join(',',@mut)) if $D;
-
-#     $sql = "select regid,runid,sdate,(select files from seqs b where " .
-#     	"a.regid=b.regid order by stamp desc limit 1) seq " .
-#     	"from samples a where samid=$pat"; print p($sql) if $D;
-#     my $sth = $dbh->prepare($sql); $sth->execute();
-
-#     print start_blockquote, br, start_form;
-#     print start_table({cellspacing=>0,cellpadding=>5,border=>1});
-#     print Tr(th(['DB', 'Sample', @mut, 'Seq', 'Date']));
-#     while(my ($regid,$runid,$sdate,$seq) = $sth->fetchrow_array) {
-#     	my @val = map { $res->{$regid}{$_}{pct} } @mut;
-# 	print Tr(td({align=>'center'},[submit(-name=>'rec',value=>$regid),
-# 				       "R$runid",@val,$seq,$sdate]));
-#     }
-#     print end_table, end_form, end_blockquote;
-# }
 
 
