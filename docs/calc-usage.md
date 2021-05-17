@@ -9,7 +9,7 @@ Add all necessary fields (runId, sampleId, primerId, site and date) for each of 
 3. _primerId_: Name of a primaer found in 'target_info.txt'. Note spelling.
 4. _site_: Short abbreviation for the source of the sample.
 5. _date_: yyy-mm-dd
-6. _IS%_: 
+6. _IS%_: abundance of BCR-ABL1 transcripts in the sample relative to other housekeeping genes
 
 Login to your CLAMP server. Click on 'Admin' link, then 'Register Samples'. Copy/paste all the newly added sample rows from 'bcr-abl1_sample_list_with_primers.txt' into the form and click on the box 'check'. If no problems occurred in the naming of samples click 'save' on the next page.
 

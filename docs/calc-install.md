@@ -2,6 +2,7 @@
 
 ### Requirements
 * Linux or other unix-like command-line, eg [Ubuntu](https://ubuntu.com)
+* [Perl](https://www.perl.org), eg version 5.22
 * [R](https://www.r-project.org), eg version 3.4
 
 The [usage instructions](calc-usage.md) identify when and how R is to be used.
