@@ -54,8 +54,6 @@ Alice would only be allowed to search and view the results.
   * GD::Graph 1.54
   * GD::Text 0.86
   * List::Util 1.41
-  * Time::Piece 1.29
-  * Time::Seconds 1.29
 
 Note that some of these Perl modules are or have been in Perl core.
 Some modules may have dependencies (most notably _GD_).
@@ -89,5 +87,4 @@ notes,ruser,rhost,stamp timestamp DEFAULT CURRENT_TIMESTAMP);
 
 CREATE TABLE primers (primerId, assay, fwd, rev);
 
-CREATE TABLE isp (samid, isp);
 ```
