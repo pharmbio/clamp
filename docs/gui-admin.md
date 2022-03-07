@@ -21,3 +21,7 @@ Clicking Save on this page will add the elligible records to the database.
 Uploading results is described in step 8 of the [Calc usage](docs/calc-usage.md) document. The current version of Clamp has a rather cumbersome system to upload the several files all individually. This is partially for historical reasons (we decided to store more files) and for flexibility (a subset of files can be uploaded depending on circumstances). More automated options have been explored but are not shown here.
 
 ![Admin Menu](img/upload.png "File Upload")
+
+Uploaded files are stored in a file system with the paths recorded in the database. The files belonging to a sample are grouped into a folder named after the run ID. Each application (instance) retains it's own group of files (possibly organized with symbolic links).
+
+Note that Clamp does not specifically include a backup strategy. We make scheduled rsync dumps to an external system. 
