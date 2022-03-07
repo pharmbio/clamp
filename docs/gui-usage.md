@@ -1,6 +1,5 @@
-## Usage notes for storage and reporting frontend
+# Usage notes for retreiving results (GUI for clinicians)
 
-### Clinic
 Clamp users start with a blank search screen:
 
 ![Starting Screen](img/search.png "Starting Screen")
@@ -13,7 +12,7 @@ In the image below, the search has been limited to Run IDs starting with "foo_00
 ![Search Example](img/example.png "Search Example")
 
 After clicking *Search*, a list of hits will appear, showing the calculated
-percentages of any any mutations found. Some fields omitted for clarity.
+percentages of any any mutations found. Some fields have been omitted here for clarity.
 
 ![Search Results](img/results.png "Search Results")
 
@@ -23,13 +22,3 @@ for that sample including access to raw data files. Details unavailable to the c
 can be used to view other selected samples.
 
 ![Details](img/details.png "Details")
-
-
-### Technicians
-Data upload is done through the Admin Page.
-
-![Admin Menu](img/admin.png "Admin Menu")
-
-
-
-

@@ -56,17 +56,19 @@ Alice would only be allowed to search and view the results.
   * List::Util 1.41
 
 Note that some of these Perl modules are or have been in Perl core.
-Some modules may have dependencies (most notably _GD_).
-The given version numbers are known to work but are unlikely to be 
+Some modules may have external dependencies (most notably _GD_).
+The listed version numbers are known to work but are unlikely to be 
 strictly required.
+
+The DBD::SQLite module holds a working copy of SQLite (version 3.22 in this case) so a separate installation isn't strictly necessary to run the system. 
 
 ### Local configuration
 
 An _uploads_ folder must be visible to the scripts for the actual uploading as well as file downloads. This is probably handled with symbolic links and may involve remote storage since a single processed sample may be 500 MB.
 
-A _data_ folder containing a SQLite database. Note that MySQL has been used in the past and some files have the connection code commented out for easy reference.
+A _data_ folder containing a SQLite database. The database should be created with a version of SQLite compatible with the DBD module used above. Note that MySQL was used in the past and some files have the connection code commented out for easy reference.
 
-The table schema is as follows:
+The table schema are as follows:
 ```
 CREATE TABLE files (
 seqid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -76,14 +78,17 @@ rhost,stamp timestamp DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE logs (regid integer not null, date, type, ref);
 
 CREATE TABLE results (
-regid integer not null, sortby integer not null, mutation,sequence,wt_reads_fwd,mut_reads_fwd,other_reads_fwd,freq_fwd,wt_reads_rev,mut_reads_rev,other_reads_rev,freq_rev,wt_reads,mut_reads,other_reads,freq,detection,routine);
+regid integer not null, sortby integer not null, mutation, sequence,
+wt_reads_fwd, mut_reads_fwd, other_reads_fwd, freq_fwd, wt_reads_rev,
+mut_reads_rev, other_reads_rev, freq_rev, wt_reads, mut_reads,
+other_reads, freq, detection, routine);
 
 CREATE TABLE ontarget (regid integer not null, filtered, raw, ontarg);
 
 CREATE TABLE samples (
 regid INTEGER PRIMARY KEY AUTOINCREMENT,
-runid, samid, primr, srcid, sdate, ispnt,
-notes,ruser,rhost,stamp timestamp DEFAULT CURRENT_TIMESTAMP);
+runid, samid, primr, srcid, sdate, ispnt, notes, ruser, rhost, 
+stamp timestamp DEFAULT CURRENT_TIMESTAMP);
 
 CREATE TABLE primers (primerId, assay, fwd, rev);
 
