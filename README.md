@@ -19,6 +19,9 @@ Results:
 Copyright 2022 Pincer Bio AB  
 CLAMP is available under the terms of [Apache 2.0 Licence](LICENSE).
 
-A manuscript is in progress:  
+This work has been published:  
+Wesley Schaal, Adam Ameur, Ulla Olsson-Strömberg, Monica Hermanson, Lucia Cavelier, Ola Spjuth.  
 "Migrating to Long-Read Sequencing for Clinical Routine _BCR-ABL1_ TKI Resistance Mutation Screening"  
-Wesley Schaal, Adam Ameur, Ulla Olsson-Strömberg, Monica Hermanson, Lucia Cavelier and Ola Spjuth
+Cancer Informatics, 2022.  
+https://doi.org/10.1177/11769351221110872
+
